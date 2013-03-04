@@ -83,6 +83,7 @@ module Guara
         @i = 0
         @json.each do |j|
           j['step_id'] = params[:step_id]
+
           @attr = StepAttr.create(j)
           j['id'] = @i
           @i += 1

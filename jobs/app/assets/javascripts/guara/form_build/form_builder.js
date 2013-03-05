@@ -34,9 +34,9 @@ window.form_builder = {
             default_field: {
                 title: "Caixa de Seleção",
                 type_field: "select",
-                options: "cargo"
+                options: ""
             },
-            attrs_field: [{type_field: "select_type", label: "Tipo"}]
+            attrs_field: [{type_field: "select_type", label: "Valores"}]
         },
         date: {
             default_field: {
@@ -396,6 +396,15 @@ window.form_builder = {
 
             select_type: function(){
                 var me = form_builder;
+                return $('<input />')
+                    .attr('type', 'text')
+                    .attr('id', 'prop_select_type')
+                    .addClass('text_field')
+                    .keyup(function(){
+                        me.options_elements_attributes.
+                        setProperties($(this).val(), 'select_type');
+                    });
+                /*
                 return $('<select></select>')
                     .attr('id', 'prop_select_type')
                     .addClass('select')
@@ -418,7 +427,7 @@ window.form_builder = {
                         $("<option></option>")
                             .attr("value", 'person_pj')
                             .text("Empresas")
-                    ); 
+                    ); */
             },
 
             text_field_widget: function(){
@@ -532,16 +541,17 @@ window.form_builder = {
         var els = me.elements_inserteds;
         var att = me.options_elements_attributes;
         
-        att.current_field_selected = els[els.length - 1];
-        att.setProperties(config.title, 'title');
-        att.setProperties(config.required, 'required');
-
         els[els.length - 1].title = config.title;
         els[els.length - 1].column = config.column;
         els[els.length - 1].resume = config.resume;
         els[els.length - 1].required = config.required;
-        els[els.length - 1].select_type = config.select_type;
+        els[els.length - 1].options = config.options;
         els[els.length - 1].widget = config.widget;
+
+        att.current_field_selected = els[els.length - 1];
+        att.setProperties(config.title, 'title');
+        att.setProperties(config.required, 'required');
+
     },
 
     updatePositions: function(){

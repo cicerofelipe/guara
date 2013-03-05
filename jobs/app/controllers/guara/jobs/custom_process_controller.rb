@@ -1,7 +1,12 @@
+
 module Guara
   module Jobs
     class CustomProcessController < Guara::BaseController
+
       skip_authorization_check
+
+      helper CrudHelper
+
       def index
         @custom_process = CustomProcess.all
       end
@@ -80,13 +85,12 @@ module Guara
         @json = JSON.parse(params[:elements])
         StepAttr.destroy_all(:step_id=> params[:step_id])
         @attrs = []
-        @i = 0
+        @i = -1;
         @json.each do |j|
+          @i += 1
           j['step_id'] = params[:step_id]
-
           @attr = StepAttr.create(j)
           j['id'] = @i
-          @i += 1
           @attrs << j
         end
         
